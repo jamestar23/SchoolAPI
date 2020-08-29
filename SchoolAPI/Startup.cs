@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SchoolAPI.Controllers;
+using SchoolAPI.Models;
 
 namespace SchoolAPI
 {
@@ -25,6 +27,14 @@ namespace SchoolAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddTransient<IRepo<Student>, StudentRepo>();
+            services.AddTransient<IRepo<Course>, CourseRepo>();
+            services.AddTransient<IRepo<EnrollmentEntry>, EnrollmentEntryRepo>();
+
+            services.AddTransient<ILogic<Student>, StudentLogic>();
+            services.AddTransient<ILogic<Course>, CourseLogic>();
+            services.AddTransient<ILogic<EnrollmentEntry>, EnrollmentEntryLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

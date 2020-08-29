@@ -1,30 +1,42 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SchoolAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SchoolAPI.Controllers
 {
-    public class EnrollmentEntryRepo : IRepo<EnrollmentEntryRepo>
+    public class EnrollmentEntryRepo : IRepo<EnrollmentEntry>
     {
-        public void Create(EnrollmentEntryRepo item)
+        private SchoolContext _context;
+
+        public EnrollmentEntryRepo()
         {
-            throw new NotImplementedException();
+            _context = new SchoolContext();
+        }
+
+        public void Create(EnrollmentEntry item)
+        {
+            _context.EnrollmentEntries.Add(item);
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var item = _context.EnrollmentEntries.Find(id);
+            _context.Entry(item).State = EntityState.Deleted;
         }
 
-        public EnrollmentEntryRepo Read(int id)
+        public EnrollmentEntry Read(int id)
         {
-            throw new NotImplementedException();
+            return _context.EnrollmentEntries.Where(a => a.Id == id).FirstOrDefault();
         }
 
-        public void Update(EnrollmentEntryRepo item)
+        public void Update(EnrollmentEntry item)
         {
-            throw new NotImplementedException();
+            _context.EnrollmentEntries.Update(item);
+            _context.SaveChanges();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using SchoolAPI.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SchoolAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,24 +9,33 @@ namespace SchoolAPI.Controllers
 {
     public class CourseRepo : IRepo<Course>
     {
+        private SchoolContext _context;
+
+        public CourseRepo()
+        {
+            _context = new SchoolContext();
+        }
         public void Create(Course item)
         {
-            throw new NotImplementedException();
+            _context.Courses.Add(item);
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var item = _context.Courses.Find(id);
+            _context.Entry(item).State = EntityState.Deleted;
         }
 
         public Course Read(int id)
         {
-            throw new NotImplementedException();
+            return _context.Courses.Where(a => a.Id == id).FirstOrDefault();
         }
 
         public void Update(Course item)
         {
-            throw new NotImplementedException();
+            _context.Courses.Update(item);
+            _context.SaveChanges();
         }
     }
 }
